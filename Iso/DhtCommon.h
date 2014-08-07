@@ -15,7 +15,6 @@ namespace Iso { namespace Dht {
             uint32_t C;
             uint32_t D;
             uint32_t E;
-
         };
         uint8_t Bytes[20];
 
