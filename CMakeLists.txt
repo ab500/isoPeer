@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(IsoPeer)
 
-include(CTest)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
+include(CTest)
 set(gtest_force_shared_crt 1)
 
 add_subdirectory(lib)

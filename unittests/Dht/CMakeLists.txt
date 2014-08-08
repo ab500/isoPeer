@@ -1,3 +1,3 @@
 add_executable(UniqueIdTest UniqueIdTest.cpp)
 target_link_libraries(UniqueIdTest gtest_main)
-add_test(UniqueIdTest UniqueIdTest)
+add_test(NAME UniqueIdTest WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND UniqueIdTest)
