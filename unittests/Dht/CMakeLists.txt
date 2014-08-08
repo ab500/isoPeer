@@ -1,0 +1,3 @@
+add_executable(UniqueIdTest UniqueIdTest.cpp)
+target_link_libraries(UniqueIdTest gtest_main)
+add_test(UniqueIdTest UniqueIdTest)
