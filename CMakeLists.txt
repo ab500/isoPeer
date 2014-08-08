@@ -11,4 +11,5 @@ add_subdirectory(lib)
 add_subdirectory(utils)
 
 include_directories(${gtest_SOURCE_DIR}/include)
+include_directories(include)
 add_subdirectory(unittests)

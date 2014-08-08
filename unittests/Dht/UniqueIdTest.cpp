@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
+#include "Dht/UniqueId.h"
 
-TEST(SampleTest, AssertionTrue) {
-    ASSERT_EQ(1, 1);
+TEST(UniqueIdTests, Instantiation) {
+    IsoPeer::Dht::UniqueId id;
 }
