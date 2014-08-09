@@ -5,7 +5,13 @@ namespace IsoPeer { namespace Dht {
 
     UniqueId UniqueId::Distance(const UniqueId& first, const UniqueId& second)
     {
-        return UniqueId();
+        UniqueId returnId;
+        for (int i = 0; i < sizeof(m_bytes); i++)
+        {
+            returnId.m_bytes[i] = first.m_bytes[i] ^ second.m_bytes[i];
+        }
+
+        return returnId;
     }
 
 } }
