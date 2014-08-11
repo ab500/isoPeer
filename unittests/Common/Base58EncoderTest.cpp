@@ -6,9 +6,9 @@
 
 using namespace IsoPeer::Common;
 
-TEST(Base64EncoderTests, Instantiation) {
+TEST(Base58EncoderTests, Instantiation) {
 
     std::array<uint8_t, 3> inputArray = { 0, 127, 255 };
-    auto resultString = Base64Encoder::Encode(inputArray.begin(), inputArray.end());
+    auto resultString = Base58Encoder::Encode(inputArray.begin(), inputArray.end());
 }
 

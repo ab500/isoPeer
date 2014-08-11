@@ -1,1 +1,1 @@
-add_library(Common Base64Encoder.cpp)
+add_library(Common Base58Encoder.cpp)
