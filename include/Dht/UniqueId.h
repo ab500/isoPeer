@@ -2,38 +2,41 @@
 
 #include <stdint.h>
 #include <cstring>
+#include <string>
+#include <array>
 
-namespace IsoPeer { namespace Dht {
+namespace IsoPeer { namespace Substrate { namespace Dht {
 
     // A simple 160bit key that serves as a building block for identifiers in the
     // DHT. It is used for node identification, message sender authentication, and
-    // object storage.
+    // object storage. The key, if it were to be represented as an integer, is stored
+    // in big-endian network byte order and this is the convention used when doing
+    // comparisons.
     class UniqueId 
     {
     public:
         UniqueId()
-            : m_bytes()
         {}
 
-        UniqueId(uint8_t bytes[20])
+        UniqueId(std::array<uint8_t, 20>& bytes)
         {
-            memcpy(m_bytes, bytes, sizeof(m_bytes));
+            memcpy(m_bytes.data(), bytes.data(), m_bytes.size());
         }
 
         UniqueId(const UniqueId& other)
         {
-            memcpy(m_bytes, other.m_bytes, sizeof(m_bytes));
+            memcpy(m_bytes.data(), other.m_bytes.data(), m_bytes.size());
         }
 
         UniqueId& operator=(const UniqueId& other)
         {
-            memcpy(m_bytes, other.m_bytes, sizeof(m_bytes));
+            memcpy(m_bytes.data(), other.m_bytes.data(), m_bytes.size());
             return *this;
         }
 
         bool operator ==(const UniqueId& other)
         {
-            return memcmp(m_bytes, other.m_bytes, sizeof(m_bytes)) == 0;
+            return memcmp(m_bytes.data(), other.m_bytes.data(), m_bytes.size()) == 0;
         }
 
         bool operator!=(const UniqueId& other)
@@ -41,9 +44,31 @@ namespace IsoPeer { namespace Dht {
             return !operator==(other);
         }
 
+        bool operator<(const UniqueId& other)
+        {
+            return memcmp(m_bytes.data(), other.m_bytes.data(), m_bytes.size()) < 0;
+        }
+
+        bool operator<=(const UniqueId& other)
+        {
+            return memcmp(m_bytes.data(), other.m_bytes.data(), m_bytes.size()) <= 0;
+        }
+
+        bool operator>(const UniqueId& other)
+        {
+            return !operator<=(other);
+        }
+
+        bool operator>=(const UniqueId& other)
+        {
+            return !operator<(other);
+        }
+
+        std::string ToBase64String();
+
         static UniqueId Distance(const UniqueId& first, const UniqueId& second);
 
     private: 
-       uint8_t m_bytes[20];
+       std::array<uint8_t, 20> m_bytes;
     };
-} }
+} } }
