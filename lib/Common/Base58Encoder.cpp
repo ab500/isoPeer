@@ -17,11 +17,16 @@ namespace IsoPeer { namespace Common {
             return true;
         }
 
+        std::string Encode(const std::vector<uint8_t>& source)
+        {
+            return Details::EncodeFromBuffer(source.data(), source.size());
+        }
+
         namespace Details
         {
             std::string s_base58Chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
-            static int DecodeToPreAllocatedBuffer(const std::string& encoded, char* result, size_t len)
+            int DecodeToPreAllocatedBuffer(const std::string& encoded, char* result, size_t len)
             {
                 // Calculate the maximum possible size using ln(58)/ln(256) * 125, rounded up
                 // to the nearest whole integer, with an extra byte for a NULL terminator.
@@ -42,6 +47,20 @@ namespace IsoPeer { namespace Common {
                     }
                     assert(carry = 0);
                 }
+
+                return 0;
+            }
+
+            std::string EncodeFromBuffer(const uint8_t* data, const size_t size)
+            {
+                return "";
+            }
+
+            bool ReserveOrEnsureSize(size_t size, std::vector<uint8_t>& dest)
+            {
+                dest.clear();
+                dest.resize(size);
+                return true;
             }
         }
     }

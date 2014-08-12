@@ -14,31 +14,6 @@ namespace IsoPeer { namespace Common {
     // for BitCoin wallet addresses.
     namespace Base58Encoder
     {
-        static std::string Encode(const std::vector<uint8_t>& source)
-        {
-            return Details::EncodeFromBuffer(source.data(), source.size());
-        }
-
-        template <int arraySize>
-        static std::string Encode(const std::array<uint8_t, arraySize>& source)
-        {
-            return Details::EncodeFromBuffer(source.data(), source.size());
-        }
-
-        bool Validate(const std::string& encoded);
-
-        template <class DestContainer>
-        static bool Decode(const std::string& encoded, DestContainer& dest)
-        {
-            // Skip all the leading spaces or zeros in the encoded array.
-            auto begin = encoded.begin();
-            while (isspace(*begin) || *begin == Details::s_base58Chars[0])
-                begin++;
-
-            size_t resultSize = encoded.end() - begin;
-            Details::ReserveOrEnsureSize(resultSize, dest);
-        }
-
         namespace Details
         {
             template<typename>
@@ -47,27 +22,54 @@ namespace IsoPeer { namespace Common {
             template<typename T, std::size_t N>
             struct is_std_array<std::array<T, N>> : std::true_type{};
 
-            static std::string s_base58Chars;
+            extern std::string s_base58Chars;
 
-            static std::string EncodeFromBuffer(
+            std::string EncodeFromBuffer(
                 const uint8_t* data, const size_t size);
 
-            static int DecodeToPreAllocatedBuffer(
+            int DecodeToPreAllocatedBuffer(
                 const std::string& encoded, char* result, size_t len);
 
-            template <class DestContainer, class = std::enable_if<is_std_array<DestContainer>>::type>
-            static bool ReserveOrEnsureSize(size_t size, DestContainer& dest)
-            {
-                return dest.size() >= size;
-            }
+            bool ReserveOrEnsureSize(size_t size, std::vector<uint8_t>& dest);
 
-            template <class DestContainer, class = std::enable_if<!is_std_array<DestContainer>>::type>
-            static bool ReserveOrEnsureSize(size_t size, DestContainer& dest)
+            template <size_t N>
+            bool ReserveOrEnsureSize(size_t size, std::array<uint8_t, N>& dest)
             {
-                dest.reserve(size);
-                return true;
+                if (dest.size() >= size)
+                {
+                    dest.fill(0);
+                    return true;
+                }
+                return false;
             }
         }
+
+        std::string Encode(const std::vector<uint8_t>& source);
+
+        template <int arraySize>
+        std::string Encode(const std::array<uint8_t, arraySize>& source)
+        {
+            return Details::EncodeFromBuffer(source.data(), source.size());
+        }
+
+        bool Validate(const std::string& encoded);
+
+        template <class DestContainer>
+        bool Decode(const std::string& encoded, DestContainer& dest)
+        {
+            // Skip all the leading spaces or zeros in the encoded array.
+            auto begin = encoded.begin();
+            while (isspace(*begin) || *begin == Details::s_base58Chars[0])
+                begin++;
+
+            // Calculate the maximum possible size using ln(58)/ln(256) * 125, rounded up
+            // to the nearest whole integer, with an extra byte for a NULL terminator.
+            int maxSize = (encoded.end() - begin) * 733 / 1000 + 1;
+            Details::ReserveOrEnsureSize(maxSize, dest);
+
+            return true;
+        }
+
     };
 
 } }
