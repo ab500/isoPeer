@@ -16,9 +16,10 @@ namespace IsoPeer { namespace Substrate { namespace Dht {
     {
     public:
         UniqueId()
+            : m_bytes()
         {}
 
-        UniqueId(std::array<uint8_t, 20>& bytes)
+        UniqueId(const std::array<uint8_t, 20>& bytes)
         {
             memcpy(m_bytes.data(), bytes.data(), m_bytes.size());
         }
