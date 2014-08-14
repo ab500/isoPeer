@@ -65,7 +65,7 @@ namespace IsoPeer { namespace Substrate { namespace Dht {
             return !operator<(other);
         }
 
-        std::string ToBase64String();
+        std::string ToBase58String();
 
         static UniqueId Distance(const UniqueId& first, const UniqueId& second);
 

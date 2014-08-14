@@ -58,3 +58,9 @@ TEST(UnqiueIdTests, Copy) {
     UniqueId copied(s_allOnes);
     ASSERT_TRUE(copied == s_allOnes);
 }
+
+TEST(UniqueIdTests, ToString) {
+    UniqueId randomId(
+        std::array<uint8_t, 20> {{ 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x3A, 0x3B }});
+    ASSERT_EQ(randomId.ToBase58String(), "97ggSxn7kpuznz2ELp7BRjWZWAE");
+}
