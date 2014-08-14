@@ -1,4 +1,4 @@
 include_directories(include/Dht)
-add_executable(UniqueIdTest UniqueIdTest.cpp)
-target_link_libraries(UniqueIdTest gtest_main Dht Common)
-add_test(NAME UniqueIdTest WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND UniqueIdTest)
+add_executable(DhtTest UniqueIdTest.cpp MessageTest.cpp)
+target_link_libraries(DhtTest gtest_main Dht Common)
+add_test(NAME DhtTest WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND DhtTest)

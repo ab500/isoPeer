@@ -35,37 +35,37 @@ namespace IsoPeer { namespace Substrate { namespace Dht {
             return *this;
         }
 
-        bool operator ==(const UniqueId& other)
+        bool operator ==(const UniqueId& other) const
         {
             return memcmp(m_bytes.data(), other.m_bytes.data(), m_bytes.size()) == 0;
         }
 
-        bool operator!=(const UniqueId& other)
+        bool operator!=(const UniqueId& other) const
         {
             return !operator==(other);
         }
 
-        bool operator<(const UniqueId& other)
+        bool operator<(const UniqueId& other) const
         {
             return memcmp(m_bytes.data(), other.m_bytes.data(), m_bytes.size()) < 0;
         }
 
-        bool operator<=(const UniqueId& other)
+        bool operator<=(const UniqueId& other) const
         {
             return memcmp(m_bytes.data(), other.m_bytes.data(), m_bytes.size()) <= 0;
         }
 
-        bool operator>(const UniqueId& other)
+        bool operator>(const UniqueId& other) const
         {
             return !operator<=(other);
         }
 
-        bool operator>=(const UniqueId& other)
+        bool operator>=(const UniqueId& other) const
         {
             return !operator<(other);
         }
 
-        std::string ToBase58String();
+        std::string ToBase58String() const;
 
         static UniqueId Distance(const UniqueId& first, const UniqueId& second);
 

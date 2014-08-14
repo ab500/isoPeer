@@ -14,7 +14,7 @@ namespace IsoPeer { namespace Substrate { namespace Dht {
         return returnId;
     }
 
-    std::string UniqueId::ToBase58String()
+    std::string UniqueId::ToBase58String() const
     {
         return IsoPeer::Common::Base58Encoder::Encode(std::vector<uint8_t>(m_bytes.begin(), m_bytes.end()));
     }

@@ -1,1 +1,1 @@
-add_library(Dht UniqueId.cpp)
+add_library(Dht UniqueId.cpp Message.cpp)
